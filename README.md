@@ -1,2 +1,0 @@
-# GatePass
-GatePass
