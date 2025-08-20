@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LutfFoods PVT. LTD. — Staff On Duty / Gate Pass (Offline)</title>
+  <style>
+    :root{
+      --accent:#ff4f8b;          /* Pink accent */
+      --accent-strong:#e91e63;   /* Deeper pink */
+      --bg-soft:#fff5f9;         /* very light pink background */
+      --muted:#6b7280;           /* gray-600 */
+      --ring:#ffd1e2;            /* soft ring focus */
+    }
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial;line-height:1.45;margin:0;padding:22px;background:var(--bg-soft);color:#111}
+    .container{max-width:900px;margin:0 auto;background:#fff;padding:20px 18px;border-radius:14px;box-shadow:0 10px 28px rgba(20,20,40,0.10);border:1px solid #ffe3ee}
+    h1{margin:0 0 10px;font-size:22px}
+    .subtitle{color:var(--accent-strong);font-weight:600;margin-bottom:14px}
+
+    form{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    label{display:block;font-size:13px;margin-bottom:6px;color:var(--muted)}
+    input,select,textarea{width:100%;padding:9px 10px;border:1px solid #f1bacf;border-radius:8px;font-size:14px;background:#fff}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--ring)}
+    textarea{min-height:76px}
+    .full{grid-column:1/-1}
+
+    /* Pink chips & buttons */
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    button{background:var(--accent);color:#fff;border:none;padding:9px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+    button.secondary{background:#ffe7f1;color:#222;border:1px solid #ffc7dd}
+    button.ghost{background:#fff;color:var(--accent-strong);border:1px dashed #ffb1cb}
+    button:active{transform:translateY(1px)}
+
+    .preview{margin-top:18px;border:1px dashed #ffc7dd;padding:12px;border-radius:10px;background:#fff8fb}
+
+    .saved-list{margin-top:16px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px;border-bottom:1px solid #f6d5e3;text-align:left;font-size:13px}
+    th{background:#fff0f6;color:#b4235a}
+    .small{font-size:12px;color:var(--muted)}
+    .badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#ffe3ee;color:#b4235a;font-weight:700}
+    .actions button{padding:6px 8px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+    .searchbar{display:flex;gap:8px;align-items:center;margin:10px 0}
+    .searchbar input{border-color:#f1bacf}
+
+    @media (max-width:720px){form{grid-template-columns:1fr}}
+
+    /* Print */
+    @media print{body *:not(.printable){display:none!important} .printable{display:block!important} .container{box-shadow:none;background:transparent}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>LutfFoods PVT. LTD. — Staff On Duty / Gate Pass (Offline)</h1>
+    <div class="subtitle">Light Pink Theme • Offline & LocalStorage Enabled</div>
+    <div class="small">Single-file app. Open in any browser. Data stays in this device (localStorage). Use Export/Import to transfer.</div>
+
+    <form id="gateForm">
+      <div>
+        <label>Date</label>
+        <input type="date" id="date" required />
+      </div>
+
+      <div>
+        <label>Security Name</label>
+        <input id="security" placeholder="Security on duty" />
+      </div>
+
+      <div>
+        <label>Visitor Name</label>
+        <input id="visitor" placeholder="Visitor full name" />
+      </div>
+
+      <div>
+        <label>Mobile Number</label>
+        <input id="mobile" pattern="\d{10}" placeholder="10-digit mobile number" />
+      </div>
+
+      <div>
+        <label>Reference By Department</label>
+        <select id="refdept">
+          <option value="">-- Select Department --</option>
+          <option>Production</option>
+          <option>HR</option>
+          <option>Sales</option>
+          <option>Purchase</option>
+          <option>Accounts</option>
+          <option>IT</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Employee Name</label>
+        <input id="empname" placeholder="Employee full name" />
+      </div>
+
+      <div>
+        <label>Employee Code</label>
+        <input id="empcode" type="number" min="1" max="100000" placeholder="e.g. 12345" />
+      </div>
+
+      <div>
+        <label>From (HRS)</label>
+        <input id="from" type="time" />
+      </div>
+
+      <div>
+        <label>To (HRS)</label>
+        <input id="to" type="time" />
+      </div>
+
+      <div class="full">
+        <label>Reason</label>
+        <textarea id="reason" placeholder="Reason for leaving"></textarea>
+      </div>
+
+      <div>
+        <label>Approval By (options)</label>
+        <div class="row">
+          <label class="small"><input type="checkbox" id="opt_sms" /> SMS</label>
+          <label class="small"><input type="checkbox" id="opt_mail" /> Mail</label>
+          <label class="small"><input type="checkbox" id="opt_wa" /> WhatsApp</label>
+        </div>
+      </div>
+
+      <div>
+        <label>Approval (HOD)</label>
+        <select id="hod">
+          <option>Pending</option>
+          <option>Approve</option>
+          <option>Reject</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Security Section</label>
+        <select id="secstate">
+          <option>Pending</option>
+          <option>Approve</option>
+          <option>Reject</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Created By</label>
+        <input id="createdBy" value="JkB_patil" />
+      </div>
+
+      <div class="full controls">
+        <button id="saveBtn" type="button">Submit & Save</button>
+        <button id="printBtn" type="button" class="secondary">Print / Save PDF</button>
+        <button id="previewBtn" type="button" class="secondary">Gate Pass Preview</button>
+        <button id="resetBtn" type="button" class="ghost">Reset</button>
+        <button id="exportBtn" type="button" class="secondary">Export JSON</button>
+        <button id="importBtn" type="button" class="secondary">Import JSON</button>
+        <input id="importFile" type="file" accept="application/json" style="display:none" />
+      </div>
+    </form>
+
+    <div id="preview" class="preview" style="display:none"></div>
+
+    <div class="saved-list">
+      <div class="searchbar">
+        <input id="searchText" placeholder="Search visitor / employee / dept" />
+        <input id="searchDate" type="date" />
+        <button id="clearSearch" class="ghost" type="button">Clear</button>
+      </div>
+      <h3>Saved Records <span id="count" class="badge">0</span></h3>
+      <div id="listArea"></div>
+    </div>
+
+    <div class="small" style="margin-top:12px">Tip: Use <strong>Print / Save PDF</strong> to save as PDF using your browser.</div>
+  </div>
+
+  <!-- Printable template (hidden until print) -->
+  <div id="printable" class="printable" style="display:none;padding:18px;font-family:sans-serif">
+    <div style="border:2px solid #b4235a;padding:12px;border-radius:10px;max-width:800px;margin:0 auto">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <h2 style="margin:0;color:#b4235a">LutfFoods PVT. LTD.</h2>
+          <div class="small">Staff On Duty — Gate Pass</div>
+        </div>
+        <div id="p_date" class="small"></div>
+      </div>
+      <hr />
+      <table style="width:100%;margin-top:8px">
+        <tbody>
+          <tr><td><strong>Security:</strong></td><td id="p_security"></td></tr>
+          <tr><td><strong>Visitor:</strong></td><td id="p_visitor"></td></tr>
+          <tr><td><strong>Mobile:</strong></td><td id="p_mobile"></td></tr>
+          <tr><td><strong>Ref Dept:</strong></td><td id="p_refdept"></td></tr>
+          <tr><td><strong>Employee:</strong></td><td id="p_employee"></td></tr>
+          <tr><td><strong>Code:</strong></td><td id="p_code"></td></tr>
+          <tr><td><strong>Time:</strong></td><td id="p_time"></td></tr>
+          <tr><td><strong>Reason:</strong></td><td id="p_reason"></td></tr>
+          <tr><td><strong>Approval By:</strong></td><td id="p_approval"></td></tr>
+          <tr><td><strong>HOD:</strong></td><td id="p_hod"></td></tr>
+          <tr><td><strong>Security:</strong></td><td id="p_securitystat"></td></tr>
+          <tr><td><strong>Created By:</strong></td><td id="p_createdBy"></td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:12px;font-size:12px;color:#444">Signature (HOD): ____________________ &nbsp;&nbsp;&nbsp; Signature (Security): ____________________</div>
+    </div>
+  </div>
+
+  <script>
+    const storageKey = 'lutf_gatepass_records_v2';
+    let currentEditId = null;
+
+    function uid(){ return Date.now() + '_' + Math.random().toString(36).slice(2,8); }
+
+    function loadRecords(){
+      const raw = localStorage.getItem(storageKey);
+      try{ return raw ? JSON.parse(raw) : [] }catch(e){ return [] }
+    }
+    function saveRecords(arr){ localStorage.setItem(storageKey, JSON.stringify(arr)); renderList(); }
+
+    function getFormData(){
+      return {
+        id: currentEditId || uid(),
+        date: document.getElementById('date').value,
+        security: document.getElementById('security').value,
+        visitor: document.getElementById('visitor').value,
+        mobile: document.getElementById('mobile').value,
+        refdept: document.getElementById('refdept').value,
+        empname: document.getElementById('empname').value,
+        empcode: document.getElementById('empcode').value,
+        from: document.getElementById('from').value,
+        to: document.getElementById('to').value,
+        reason: document.getElementById('reason').value,
+        opt_sms: document.getElementById('opt_sms').checked,
+        opt_mail: document.getElementById('opt_mail').checked,
+        opt_wa: document.getElementById('opt_wa').checked,
+        hod: document.getElementById('hod').value,
+        secstate: document.getElementById('secstate').value,
+        createdBy: document.getElementById('createdBy').value || 'JkB_patil',
+        createdAt: new Date().toISOString()
+      }
+    }
+
+    function setFormData(d){
+      document.getElementById('date').value = d.date || '';
+      document.getElementById('security').value = d.security || '';
+      document.getElementById('visitor').value = d.visitor || '';
+      document.getElementById('mobile').value = d.mobile || '';
+      document.getElementById('refdept').value = d.refdept || '';
+      document.getElementById('empname').value = d.empname || '';
+      document.getElementById('empcode').value = d.empcode || '';
+      document.getElementById('from').value = d.from || '';
+      document.getElementById('to').value = d.to || '';
+      document.getElementById('reason').value = d.reason || '';
+      document.getElementById('opt_sms').checked = !!d.opt_sms;
+      document.getElementById('opt_mail').checked = !!d.opt_mail;
+      document.getElementById('opt_wa').checked = !!d.opt_wa;
+      document.getElementById('hod').value = d.hod || 'Pending';
+      document.getElementById('secstate').value = d.secstate || 'Pending';
+      document.getElementById('createdBy').value = d.createdBy || 'JkB_patil';
+    }
+
+    function renderPreview(data){
+      const p = document.getElementById('preview');
+      p.style.display = 'block';
+      p.innerHTML = `
+        <strong>Date:</strong> ${escapeHtml(data.date || '')} <br/>
+        <strong>Security:</strong> ${escapeHtml(data.security || '')} <br/>
+        <strong>Visitor:</strong> ${escapeHtml(data.visitor || '')} <br/>
+        <strong>Ref Dept:</strong> ${escapeHtml(data.refdept || '')} <br/>
+        <strong>Employee:</strong> ${escapeHtml(data.empname || '')} (Code: ${escapeHtml(data.empcode || '')}) <br/>
+        <strong>Time:</strong> ${escapeHtml(data.from || '--:--')} - ${escapeHtml(data.to || '--:--')} <br/>
+        <strong>Reason:</strong> ${escapeHtml(data.reason || '')} <br/>
+        <strong>Approval By:</strong> ${['SMS','Mail','WhatsApp'].filter((v,i)=>[data.opt_sms,data.opt_mail,data.opt_wa][i]).join(', ')} <br/>
+        <strong>HOD:</strong> ${escapeHtml(data.hod || 'Pending')} &nbsp; <strong>Security:</strong> ${escapeHtml(data.secstate || 'Pending')} <br/>
+        <strong>Created By:</strong> ${escapeHtml(data.createdBy || 'JkB_patil')}
+      `;
+    }
+
+    function renderList(){
+      const list = loadRecords();
+      document.getElementById('count').innerText = list.length;
+      const area = document.getElementById('listArea');
+      const q = (document.getElementById('searchText')?.value || '').toLowerCase();
+      const qd = document.getElementById('searchDate')?.value || '';
+
+      const filtered = list.filter(r=>{
+        const matchText = [r.visitor,r.empname,r.refdept].join(' ').toLowerCase().includes(q);
+        const matchDate = qd ? (r.date === qd) : true;
+        return matchText && matchDate;
+      });
+
+      if(!filtered.length){ area.innerHTML = '<div class="small">No matching records.</div>'; return }
+
+      let html = '<table><thead><tr><th>Date</th><th>Visitor</th><th>Emp</th><th>Dept</th><th>Time</th><th>By</th><th>Actions</th></tr></thead><tbody>';
+      filtered.slice().reverse().forEach(r=>{
+        html += `
+          <tr>
+            <td>${escapeHtml(r.date||'')}</td>
+            <td>${escapeHtml(r.visitor||'')}</td>
+            <td>${escapeHtml(r.empname||'')} (${escapeHtml(r.empcode||'')})</td>
+            <td>${escapeHtml(r.refdept||'')}</td>
+            <td>${escapeHtml(r.from||'--:--')} - ${escapeHtml(r.to||'--:--')}</td>
+            <td>${escapeHtml(r.createdBy||'')}</td>
+            <td class="actions">
+              <button onclick="viewRecord('${r.id}')" class="secondary">View</button>
+              <button onclick="editRecord('${r.id}')">Edit</button>
+              <button onclick="deleteRecord('${r.id}')" class="secondary">Delete</button>
+              <button onclick="exportSingle('${r.id}')" class="ghost">Export</button>
+              <button onclick="pdfSingle('${r.id}')">PDF</button>
+            </td>
+          </tr>`;
+      });
+      html += '</tbody></table>';
+      area.innerHTML = html;
+    }
+
+    function escapeHtml(s){ return (s+'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c])) }
+
+    function findById(id){ return loadRecords().find(r=>r.id===id); }
+
+    function viewRecord(id){
+      const rec = findById(id); if(!rec) return alert('Record not found');
+      renderPreview(rec);
+      window.scrollTo({top:document.getElementById('preview').offsetTop,behavior:'smooth'});
+    }
+
+    function editRecord(id){
+      const rec = findById(id); if(!rec) return alert('Record not found');
+      currentEditId = rec.id; setFormData(rec);
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    function deleteRecord(id){
+      if(!confirm('Are you sure to delete this record?')) return;
+      const arr = loadRecords().filter(r=>r.id!==id);
+      saveRecords(arr);
+    }
+
+    function exportSingle(id){
+      const rec = findById(id); if(!rec) return alert('Not found');
+      const blob = new Blob([JSON.stringify(rec,null,2)],{type:'application/json'});
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `gatepass_${rec.id}.json`; a.click();
+    }
+
+    function pdfSingle(id){
+      const rec = findById(id); if(!rec) return alert('Not found');
+      openPrintable(rec, /*autoPrint*/ true);
+    }
+
+    function openPrintable(rec, autoPrint){
+      const win = window.open('', '_blank','noopener,noreferrer');
+      const approval = ['SMS','Mail','WhatsApp'].filter((v,i)=>[rec.opt_sms,rec.opt_mail,rec.opt_wa][i]).join(', ');
+      win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Gate Pass ${rec.id}</title>
+        <style>
+          body{font-family:Inter,system-ui,Arial;margin:0;padding:18px;background:#fff}
+          .card{max-width:800px;margin:0 auto;border:2px solid #b4235a;border-radius:10px;padding:14px}
+          h2{margin:0;color:#b4235a}
+          .small{font-size:12px;color:#444}
+          table{width:100%;border-collapse:collapse;margin-top:8px}
+          td{padding:6px;border-bottom:1px solid #eee;vertical-align:top}
+        </style></head><body>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <h2>LutfFoods PVT. LTD.</h2>
+              <div class="small">Staff On Duty — Gate Pass</div>
+            </div>
+            <div class="small">${escapeHtml(rec.date || new Date().toLocaleDateString())}</div>
+          </div>
+          <hr/>
+          <table>
+            <tr><td><strong>Security:</strong></td><td>${escapeHtml(rec.security||'')}</td></tr>
+            <tr><td><strong>Visitor:</strong></td><td>${escapeHtml(rec.visitor||'')}</td></tr>
+            <tr><td><strong>Mobile:</strong></td><td>${escapeHtml(rec.mobile||'')}</td></tr>
+            <tr><td><strong>Ref Dept:</strong></td><td>${escapeHtml(rec.refdept||'')}</td></tr>
+            <tr><td><strong>Employee:</strong></td><td>${escapeHtml(rec.empname||'')}</td></tr>
+            <tr><td><strong>Code:</strong></td><td>${escapeHtml(rec.empcode||'')}</td></tr>
+            <tr><td><strong>Time:</strong></td><td>${escapeHtml(rec.from||'--:--')} - ${escapeHtml(rec.to||'--:--')}</td></tr>
+            <tr><td><strong>Reason:</strong></td><td>${escapeHtml(rec.reason||'')}</td></tr>
+            <tr><td><strong>Approval By:</strong></td><td>${escapeHtml(approval)}</td></tr>
+            <tr><td><strong>HOD:</strong></td><td>${escapeHtml(rec.hod||'Pending')}</td></tr>
+            <tr><td><strong>Security:</strong></td><td>${escapeHtml(rec.secstate||'Pending')}</td></tr>
+            <tr><td><strong>Created By:</strong></td><td>${escapeHtml(rec.createdBy||'')}</td></tr>
+          </table>
+          <div class="small" style="margin-top:12px">Signature (HOD): ____________________ &nbsp;&nbsp;&nbsp; Signature (Security): ____________________</div>
+        </div>
+      </body></html>`);
+      win.document.close();
+      if(autoPrint){ win.focus(); win.print(); }
+    }
+
+    // Handlers
+    document.getElementById('saveBtn').addEventListener('click', ()=>{
+      const mobile = document.getElementById('mobile').value.trim();
+      if(mobile && !/^\d{10}$/.test(mobile)) return alert('Mobile must be 10 digits');
+      const date = document.getElementById('date').value; if(!date) return alert('Please choose a date');
+
+      const rec = getFormData();
+      const arr = loadRecords();
+      const idx = arr.findIndex(r=>r.id===rec.id);
+      if(idx>=0){ arr[idx] = rec; } else { arr.push(rec); }
+      saveRecords(arr);
+      renderPreview(rec);
+      currentEditId = null;
+      alert('Saved locally. Use "Print / Save PDF" or row PDF to export.');
+    });
+
+    document.getElementById('previewBtn').addEventListener('click', ()=>{
+      const rec = getFormData(); renderPreview(rec); window.scrollTo({top:document.getElementById('preview').offsetTop,behavior:'smooth'});
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', ()=>{ if(confirm('Reset form?')) { document.getElementById('gateForm').reset(); document.getElementById('preview').style.display='none'; currentEditId=null; document.getElementById('createdBy').value='JkB_patil'; } });
+
+    document.getElementById('printBtn').addEventListener('click', ()=>{
+      const rec = getFormData();
+      document.getElementById('p_date').innerText = rec.date || new Date().toLocaleDateString();
+      document.getElementById('p_security').innerText = rec.security || '';
+      document.getElementById('p_visitor').innerText = rec.visitor || '';
+      document.getElementById('p_mobile').innerText = rec.mobile || '';
+      document.getElementById('p_refdept').innerText = rec.refdept || '';
+      document.getElementById('p_employee').innerText = rec.empname || '';
+      document.getElementById('p_code').innerText = rec.empcode || '';
+      document.getElementById('p_time').innerText = (rec.from||'--:--') + ' - ' + (rec.to||'--:--');
+      document.getElementById('p_reason').innerText = rec.reason || '';
+      document.getElementById('p_approval').innerText = [rec.opt_sms? 'SMS':'', rec.opt_mail? 'Mail':'', rec.opt_wa? 'WhatsApp':''].filter(Boolean).join(', ');
+      document.getElementById('p_hod').innerText = rec.hod || 'Pending';
+      document.getElementById('p_securitystat').innerText = rec.secstate || 'Pending';
+      document.getElementById('p_createdBy').innerText = rec.createdBy || 'JkB_patil';
+
+      // auto-save on print
+      const arr = loadRecords();
+      const idx = arr.findIndex(r=>r.id===rec.id);
+      if(idx>=0){ arr[idx]=rec; } else { arr.push(Object.assign({}, rec)); }
+      saveRecords(arr);
+
+      const printable = document.getElementById('printable');
+      printable.style.display = 'block';
+      window.print();
+      printable.style.display = 'none';
+    });
+
+    document.getElementById('exportBtn').addEventListener('click', ()=>{
+      const arr = loadRecords();
+      const blob = new Blob([JSON.stringify(arr,null,2)],{type:'application/json'});
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `lutf_gatepass_records_${new Date().toISOString().slice(0,10)}.json`; a.click();
+    });
+
+    document.getElementById('importBtn').addEventListener('click', ()=>{ document.getElementById('importFile').click(); });
+
+    document.getElementById('importFile').addEventListener('change', (e)=>{
+      const f = e.target.files[0]; if(!f) return;
+      const reader = new FileReader();
+      reader.onload = ()=>{
+        try{
+          const data = JSON.parse(reader.result);
+          if(Array.isArray(data)){
+            const existing = loadRecords();
+            // dedupe by id
+            const map = new Map(existing.map(x=>[x.id,x]));
+            data.forEach(x=>map.set(x.id||uid(), Object.assign({id: x.id || uid()}, x)));
+            saveRecords(Array.from(map.values()));
+            alert('Imported array of records.');
+          }else if(data && typeof data === 'object'){
+            const arr = loadRecords(); arr.push(Object.assign({id: data.id || uid()}, data)); saveRecords(arr); alert('Imported a single record.');
+          }else alert('Unknown JSON structure');
+        }catch(err){ alert('Invalid JSON file'); }
+      };
+      reader.readAsText(f);
+      e.target.value = '';
+    });
+
+    // Search handlers
+    document.getElementById('searchText').addEventListener('input', renderList);
+    document.getElementById('searchDate').addEventListener('change', renderList);
+    document.getElementById('clearSearch').addEventListener('click', ()=>{ document.getElementById('searchText').value=''; document.getElementById('searchDate').value=''; renderList(); });
+
+    // on load: defaults
+    (function init(){
+      // prefill date & creator
+      const today = new Date().toISOString().slice(0,10);
+      document.getElementById('date').value = today;
+      document.getElementById('createdBy').value = 'JkB_patil';
+      renderList();
+    })();
+  </script>
+</body>
+</html>
